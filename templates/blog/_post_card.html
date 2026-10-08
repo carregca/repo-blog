@@ -16,7 +16,13 @@
             {% with n=post.comments.count %}<span>{{ n }} comentario{{ n|pluralize }}</span>{% endwith %}
         </p>
 
+        <p class="post-category">
+            {% for category in post.categories.all %}
+                <a href="{% url 'blog:category_posts' category.slug %}">{{ category.name }}</a>{% if not forloop.last %}, {% endif %}
+            {% endfor %}
+        </p>
         <h3><a href="{{ post.get_absolute_url }}">{{ post.title }}</a></h3>
+
 
         <p class="post-summary">{{ post.summary }}</p>
 
