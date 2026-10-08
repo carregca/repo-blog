@@ -1,6 +1,6 @@
 from django.contrib import admin
 
-from .models import Comment, Post, PostMedia
+from .models import Comment, Post, PostMedia, Category
 
 
 class PostMediaInline(admin.TabularInline):
@@ -51,3 +51,7 @@ class CommentAdmin(admin.ModelAdmin):
 
     def has_add_permission(self, request):
         return False
+
+@admin.register(Category)
+class CategoryAdmin(admin.ModelAdmin):
+    prepopulated_fields = {"slug": ("name",)}

@@ -18,6 +18,17 @@ class PostListView(ListView):
     def get_queryset(self):
         return Post.objects.published()
 
+class CategoryPostListView(ListView):
+    """Listado de entradas pertenecientes a una categoría."""
+
+    template_name = "blog/post_list.html"
+    context_object_name = "posts"
+    paginate_by = 6
+
+    def get_queryset(self):
+        return Post.objects.published().filter(
+            categories__slug=self.kwargs["slug"]
+        )
 
 def post_detail(request, slug):
     """Detalle de una entrada + formulario y listado de comentarios."""

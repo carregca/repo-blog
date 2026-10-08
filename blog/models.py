@@ -12,7 +12,13 @@ class PostQuerySet(models.QuerySet):
         """Entradas visibles para el público (publicadas y con fecha ya cumplida)."""
         return self.filter(published=True, published_at__lte=timezone.now())
 
+class Category(models.Model):
+    name = models.CharField(max_length=100)
+    slug = models.SlugField(unique=True)
 
+    def __str__(self):
+        return self.name
+    
 class Post(models.Model):
     """Una entrada del blog. Solo el administrador puede crearlas (desde /admin)."""
 
@@ -38,6 +44,11 @@ class Post(models.Model):
         upload_to="posts/covers/",
         blank=True,
         help_text="Imagen principal (opcional).",
+    )
+    categories = models.ManyToManyField(
+        Category,
+        related_name="posts",
+        blank=True
     )
     published = models.BooleanField(
         "publicada",
